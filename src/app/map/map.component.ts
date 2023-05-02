@@ -1,5 +1,7 @@
+/// <reference types='leaflet-sidebar-v2' />
 import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
+import { SidebarOptions } from 'leaflet';
 
 @Component({
   selector: 'app-map',
@@ -7,7 +9,13 @@ import * as L from 'leaflet';
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements AfterViewInit {
-  private map: L.Map | L.LayerGroup<any> | undefined;
+  public map: any;
+  public sidebarOptions: SidebarOptions = {
+    position: 'right',
+    autopan: true,
+    closeButton: true,
+    container: 'sidebar',
+  }
 
   private initMap(): void {
     this.map = L.map('map', {
@@ -22,6 +30,11 @@ export class MapComponent implements AfterViewInit {
     });
 
     tiles.addTo(this.map);
+
+    var popup = L.popup()
+    .setLatLng(L.latLng(40,0))
+    .setContent('<p>Hello world!<br />This is a nice popup.</p>')
+    .openOn(this.map);
   }
 
   constructor() { }
